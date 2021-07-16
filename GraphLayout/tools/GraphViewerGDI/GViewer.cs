@@ -1890,7 +1890,20 @@ namespace Microsoft.Msagl.GraphViewerGdi {
         windowZoomButton.ToolTipText = WindowZoomButtonToolTipText;
     }
 
-    void RedoButtonPressed() {
+      public bool ZoomButtonsVisible {
+         get { return zoomin.Visible; }
+         set {
+            zoomin.Visible = value;
+            zoomout.Visible = value;
+         }
+      }
+
+      public bool WindowZoomVisible {
+         get { return windowZoomButton.Visible; }
+         set { windowZoomButton.Visible = value; }
+      }
+
+      void RedoButtonPressed() {
       if (LayoutEditor != null && LayoutEditor.CanRedo)
         LayoutEditor.Redo();
     }

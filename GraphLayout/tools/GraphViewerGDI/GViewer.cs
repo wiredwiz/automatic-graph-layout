@@ -184,6 +184,12 @@ namespace Microsoft.Msagl.GraphViewerGdi {
     const string WindowZoomButtonToolTipText = "Zoom in by dragging a rectangle";
     double zoomWindowThreshold = 0.05; //inches
 
+    public delegate void ZoomDelegate(object sender, ref double zoomFactor);
+    public event ZoomDelegate ZoomInButtonPressed;
+    public event ZoomDelegate ZoomOutButtonPressed;
+    public event ZoomDelegate WindowZoomed;
+    public event EventHandler HomeButtonPressed;
+
     #region Component Designer generated code
 
     /// <summary> 
@@ -1740,14 +1746,18 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       double zoomFractionLocal = ZoomF * ZoomFactor();
       if (!ScaleIsAcceptable(CurrentScale * zoomFractionLocal))
         return;
-      ZoomF *= ZoomFactor();
+      double newFactor = ZoomF * ZoomFactor();
+      RaiseZoomInButtonPressedEvent(ref newFactor);
+      ZoomF = newFactor;
     }
 
     /// <summary>
     /// Zooms out
     /// </summary>
     public void ZoomOutPressed() {
-      ZoomF /= ZoomFactor();
+      double newFactor = ZoomF / ZoomFactor();
+      RaiseZoomOutButtonPressedEvent(ref newFactor);
+      ZoomF = newFactor;
     }
 
     double ZoomFactor() {
@@ -1778,6 +1788,7 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       else if (e.ClickedItem == homeZoomButton) {
         transformation = null;
         panel.Invalidate();
+        RaiseHomeButtonPressedEvent();
       }
 
     }
@@ -1890,22 +1901,24 @@ namespace Microsoft.Msagl.GraphViewerGdi {
         windowZoomButton.ToolTipText = WindowZoomButtonToolTipText;
     }
 
-      public bool ZoomButtonsVisible {
-         get { return zoomin.Visible; }
-         set {
-            zoomin.Visible = value;
-            zoomout.Visible = value;
-         }
+    public bool ZoomButtonsVisible 
+    {
+      get { return zoomin.Visible; }
+      set {
+        zoomin.Visible = value;
+        zoomout.Visible = value;
       }
+    }
 
-      public bool WindowZoomVisible {
-         get { return windowZoomButton.Visible; }
-         set { windowZoomButton.Visible = value; }
-      }
+    public bool WindowZoomVisible 
+    {
+      get { return windowZoomButton.Visible; }
+      set { windowZoomButton.Visible = value; }
+    }
 
-      void RedoButtonPressed() {
-      if (LayoutEditor != null && LayoutEditor.CanRedo)
-        LayoutEditor.Redo();
+    void RedoButtonPressed() {
+    if (LayoutEditor != null && LayoutEditor.CanRedo)
+      LayoutEditor.Redo();
     }
 
     void UndoButtonPressed() {
@@ -2187,6 +2200,21 @@ namespace Microsoft.Msagl.GraphViewerGdi {
         iEditViewerMouseUp(this, iArgs);
     }
 
+    internal void RaiseZoomInButtonPressedEvent(ref double zoomFactor) {
+      ZoomInButtonPressed?.Invoke(this, ref zoomFactor);
+    }
+
+    internal void RaiseZoomOutButtonPressedEvent(ref double zoomFactor) {
+      ZoomOutButtonPressed?.Invoke(this, ref zoomFactor);
+    }
+
+    internal void RaiseWindowZoomedEvent(ref double zoomFactor) {
+      WindowZoomed?.Invoke(this, ref zoomFactor);
+    }
+
+    internal void RaiseHomeButtonPressedEvent() {
+      HomeButtonPressed?.Invoke(this, null);
+    }
 
     /// <summary>
     /// This event is raised before the file saving

@@ -154,6 +154,7 @@ namespace Microsoft.Msagl.GraphViewerGdi {
                                 double sc = Math.Min(Width / Math.Abs(p1.X - p2.X),
                                     Height / Math.Abs(p1.Y - p2.Y));
                                 P2 center = 0.5f*(p1 + p2);
+                                gViewer.RaiseWindowZoomedEvent(ref sc);
                                 gViewer.SetTransformOnScaleAndCenter(sc, center);
                                 Invalidate();
                             }

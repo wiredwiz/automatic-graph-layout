@@ -217,15 +217,23 @@ namespace Microsoft.Msagl.GraphViewerGdi{
             set { saveButton.Visible = value; }
         }
 
-        ///// <summary>
-        ///// The event raised when the graph object under the mouse cursor changes
-        ///// </summary>
-        //public event EventHandler SelectionChanged;
-
         /// <summary>
-        /// The rectangle for drawing
+        /// Gets or sets whether mouse wheel scrolling will zoom the graph
         /// </summary>
-        internal System.Drawing.Rectangle DestRect{
+        public bool ZoomOnMouseScroll {
+            get { return zoomWhenMouseWheelScroll; }
+            set { zoomWhenMouseWheelScroll = value; }
+        }
+
+    ///// <summary>
+    ///// The event raised when the graph object under the mouse cursor changes
+    ///// </summary>
+    //public event EventHandler SelectionChanged;
+
+    /// <summary>
+    /// The rectangle for drawing
+    /// </summary>
+    internal System.Drawing.Rectangle DestRect{
             get { return destRect; }
             set { destRect = value; }
         }

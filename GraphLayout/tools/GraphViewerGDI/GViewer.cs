@@ -1116,7 +1116,7 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       SetTransformOnScaleAndCenter(scale, sourceCenter);
     }
 
-    internal void SetTransformOnScaleAndCenter(double scale, Point sourceCenter) {
+    public void SetTransformOnScaleAndCenter(double scale, Point sourceCenter) {
       if (!ScaleIsAcceptable(scale))
         return;
 

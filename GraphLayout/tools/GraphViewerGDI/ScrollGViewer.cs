@@ -403,7 +403,7 @@ namespace Microsoft.Msagl.GraphViewerGdi{
             set { toolTip1 = value; }
         }
 
-        public void SetSelectedObject(object o){
+        internal void SetSelectedObject(object o){
             selectedDObject = (DObject) o;
             MousePositonWhenSetSelectedObject = MousePosition;
         }

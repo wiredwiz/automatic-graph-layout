@@ -1760,6 +1760,16 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       ZoomF = newFactor;
     }
 
+    public void SelectGraphObjectAtLocation(Point location) 
+    {
+       var subgraphs = new List<Geometry>();
+       Geometry geometry = bBNode.Hit(location, GetHitSlack(), null, subgraphs) ??
+                            PickSubgraph(subgraphs, location);
+       selectedDObject = geometry == null ? null : geometry.dObject;
+       if (selectedDObject != null)
+         LayoutEditor?.SelectSingleObjectForDragging(selectedDObject);
+    }
+
     double ZoomFactor() {
       return 1.0f + zoomFraction;
     }

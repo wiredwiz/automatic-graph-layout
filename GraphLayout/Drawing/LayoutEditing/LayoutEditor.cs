@@ -1330,5 +1330,18 @@ namespace Microsoft.Msagl.Drawing {
                 RemoveObjDraggingDecorations(edge);
 
         }
-    }
+
+        /// <summary>
+        /// Selects a specified viewer object for dragging.
+        /// </summary>
+        /// <param name="obj">the viewer object to select.</param>
+        public void SelectSingleObjectForDragging(IViewerObject obj) 
+        {
+            if (obj != null) 
+            {
+                UnselectEverything();
+                SelectObjectForDragging(obj);
+            }
+        }
+   }
 }

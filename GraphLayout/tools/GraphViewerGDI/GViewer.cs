@@ -1796,9 +1796,7 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       else if (e.ClickedItem == layoutSettingsButton)
         LayoutSettingsIsClicked();
       else if (e.ClickedItem == homeZoomButton) {
-        transformation = null;
-        panel.Invalidate();
-        RaiseHomeButtonPressedEvent();
+        SetViewToHome();
       }
 
     }
@@ -2098,6 +2096,15 @@ namespace Microsoft.Msagl.GraphViewerGdi {
       if (pd.ShowDialog() == DialogResult.OK)
         p.Print();
     }
+
+    /// <summary>
+    /// Resets the graph to the starting view.
+    /// </summary>
+    public void SetViewToHome() {
+         transformation = null;
+         panel.Invalidate();
+         RaiseHomeButtonPressedEvent();
+      }
 
     void PanelClick(object sender, EventArgs e) {
       OnClick(e);
